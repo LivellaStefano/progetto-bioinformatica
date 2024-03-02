@@ -11,6 +11,33 @@ def gap_length(sequence, start):
         result = len(tmp.group())
     return result
 
+#funzione che ritorna il genoma con più variazioni e quello con meno variazioni rispetto al reference
+def get_significant_genomes(variants_dict):
+    min = 0
+    min_name = ""
+    max = 0
+    max_name = ""
+    for key in variants_dict:
+        if len(variants_dict[key]) > max or max_name == "":
+            max_name = key
+            max = len(variants_dict[key])
+        if len(variants_dict[key]) < min or min_name == "":
+            min_name = key
+            min = len(variants_dict[key])
+    return (min_name, max_name)
+
+#funzione che ritorna le posizioni del reference rispe]o a cui tutti gli altri genomi variano allo stesso modo
+def get_common_mutations(genome_label, variants_dict):
+    valid = True
+    for index in variants_dict[genome_label]:
+        valid = True
+        for genome in variants_dict:
+            if index not in variants_dict[genome]:
+                valid = False
+                break
+        if valid:
+            print(index)
+
 
 REFERENCE_LABEL = "NC_045512.2"
 genomes = dict()
@@ -44,9 +71,11 @@ for key in genomes:
                     variants_dict[key][index] = ("S", (genomes[REFERENCE_LABEL][index], genomes[key][index]))
 
 for key in variants_dict:
+    print(key)
     print(variants_dict[key])
 
-
+(a, b) = get_significant_genomes(variants_dict)
+get_common_mutations(a, variants_dict)
 
 
 
