@@ -26,17 +26,24 @@ def get_significant_genomes(variants_dict):
             min = len(variants_dict[key])
     return (min_name, max_name)
 
-#funzione che ritorna le posizioni del reference rispe]o a cui tutti gli altri genomi variano allo stesso modo
-def get_common_mutations(genome_label, variants_dict):
+#funzione che ritorna le posizioni del reference rispe]o a cui tutti gli altri genomi variano 
+#same = True --> se si vogliono variazioni comuni uguali, same = False --> se si vogliono variazioni comuni
+def get_common_mutations(genome_label, variants_dict, same):
     valid = True
+    result = list()
     for index in variants_dict[genome_label]:
         valid = True
         for genome in variants_dict:
-            if index not in variants_dict[genome]:
+           # if (not same and (index not in variants_dict[genome])) or\
+            #    (same and (index not in variants_dict[genome] or\
+             #       (variants_dict[genome_label][index] != variants_dict[genome][index]))):
+            if (index not in variants_dict[genome]) or\
+                (same and (variants_dict[genome_label][index] != variants_dict[genome][index])):
                 valid = False
                 break
         if valid:
-            print(index)
+            result.append(index)
+    return result
 
 
 REFERENCE_LABEL = "NC_045512.2"
@@ -75,10 +82,8 @@ for key in variants_dict:
     print(variants_dict[key])
 
 (a, b) = get_significant_genomes(variants_dict)
-get_common_mutations(a, variants_dict)
-
-
-
+array = get_common_mutations(a, variants_dict, True)
+print(array)
 
 
 
