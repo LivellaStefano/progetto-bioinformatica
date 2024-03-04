@@ -10,7 +10,9 @@ pip install reportlab
 > ```--txt``` Salva in un file chiamato "report.txt" il report <br />
 > ```--pdf``` Salva in un file pdf chiamato "report.pdf" il report<br />
 
-### Output:
+## Report:
+Il report segue il seguente formato:<br />
+
 **Variazioni puntuali rilevate rispetto al reference:** <br />
 **OL700521.1:** <br />
 • Posizione 209: sostituzione G -> T<br />
