@@ -43,13 +43,13 @@ def gap_length(sequence, start):
 #3) Cambiamento ("S", (Reference, Genoma))
 def create_variants_dict(genomes):
     variants_dict = dict()
-    opening_gap = gap_length(genomes[REFERENCE_LABEL], True)
-    closing_gap = gap_length(genomes[REFERENCE_LABEL], False)
+    reference_opening_gap = gap_length(genomes[REFERENCE_LABEL], True)
+    reference_closing_gap = gap_length(genomes[REFERENCE_LABEL], False)
     for key in genomes:
         if key != REFERENCE_LABEL:
             variants_dict[key] = dict()
-            opening_gap = max(opening_gap, gap_length(genomes[key], True))
-            closing_gap = max(closing_gap, gap_length(genomes[key], False))
+            opening_gap = max(reference_opening_gap, gap_length(genomes[key], True)) 
+            closing_gap = max(reference_closing_gap, gap_length(genomes[key], False)) 
             for index in range(opening_gap, len(genomes[key]) - closing_gap):
                 if genomes[key][index] != genomes[REFERENCE_LABEL][index]:
                     #verifico che ci sia una cancellazione e la gestisco
@@ -112,11 +112,9 @@ def get_common_mutations_2(variants_dict):
             if pos not in seen:
                 seen[pos] = variants_dict[genome][pos]
             elif seen[pos] != variants_dict[genome][pos]:
-                seen[pos] = None
+                del seen[pos]
     result = list()
-    for key in seen:
-        if seen[key] != None:
-            result.append(key)
+    result = [key for key in seen]
     result.sort()
     return result
 
