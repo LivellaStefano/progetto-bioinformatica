@@ -110,11 +110,11 @@ def get_common_mutations_2(variants_dict):
     for genome in variants_dict:
         for pos in variants_dict[genome]:
             if pos not in seen:
-                seen[pos] = variants_dict[genome][pos]
+                seen[pos] = (variants_dict[genome][pos], True)
             elif seen[pos] != variants_dict[genome][pos]:
-                del seen[pos]
+                seen[pos] = (seen[pos][0], False)
     result = list()
-    result = [key for key in seen]
+    result = [key for key in seen if seen[key][1] == True]
     result.sort()
     return result
 
